@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    active: dev
+
+  application:
+    name: concert-ticketing
+
+  jpa:
+    open-in-view: false          # OSIV 비활성화 (성능, 명확한 트랜잭션 경계)
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100  # N+1 방지 IN 쿼리 배치 크기
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+
+logging:
+  level:
+    com.concertticket: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE

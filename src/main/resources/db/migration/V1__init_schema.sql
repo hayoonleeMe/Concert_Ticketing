@@ -1,0 +1,2 @@
+-- Phase 1: Flyway 설정 검증용 초기 마이그레이션
+-- 도메인 테이블(users, venues, events, event_schedules, seats)은 Phase 2에서 추가됩니다.
