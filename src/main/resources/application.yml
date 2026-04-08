@@ -5,6 +5,9 @@ spring:
   application:
     name: concert-ticketing
 
+  config:
+    import: optional:file:.env[.properties]
+
   jpa:
     open-in-view: false          # OSIV 비활성화 (성능, 명확한 트랜잭션 경계)
     properties:
