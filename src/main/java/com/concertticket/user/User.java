@@ -47,4 +47,10 @@ public class User extends BaseEntity {
         user.role = UserRole.USER;  // 신규 가입자는 항상 USER; ADMIN 부여는 별도 프로세스
         return user;
     }
+
+    // 재로그인 시 소셜 프로필 이름이 바뀌어도 DB에 동기화한다
+    // 범용 setter 대신 의미 있는 이름으로 도메인 행위를 표현한다
+    public void updateName(String name) {
+        this.name = name;
+    }
 }

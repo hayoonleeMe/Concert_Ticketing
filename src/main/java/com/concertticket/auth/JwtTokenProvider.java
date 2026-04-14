@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.lang.annotation.Documented;
 import java.util.Date;
 
 @Component
@@ -86,5 +87,19 @@ public class JwtTokenProvider {
     public Long getUserId(String token) {
         // sub 클레임 → Long
         return Long.parseLong(getClaims(token).getSubject());
+    }
+
+    // Refresh Token은 subject(userId)만 포함 — email·role 클레임 제외
+    // Access Token 탈취와 독립적으로 Refresh Token 탈취 피해 범위를 최소화
+    public String generateRefreshToken(Long userId) {
+        return Jwts.builder()
+                // sub만 포함 — 만료 후 재발급 시 userId로 User 조회
+                .subject(String.valueOf(userId))
+                .issuedAt(new Date())
+                // refreshTokenExpiry: Redis TTL과 동일한 값으로 동기화 (7일 = 604800000ms)
+                .expiration(new Date(System.currentTimeMillis() + refreshTokenExpiry))
+                // HMAC-SHA256 서명 (키 길이로 알고리즘 자동 결정)
+                .signWith(key)
+                .compact();
     }
 }

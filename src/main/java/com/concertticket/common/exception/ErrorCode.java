@@ -43,7 +43,14 @@ public enum ErrorCode {
     // 401: 서명 불일치, 잘못된 형식
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "A003", "유효하지 않은 토큰입니다."),
     // 401: exp 클레임 초과
-    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "A004", "만료된 토큰입니다.");
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "A004", "만료된 토큰입니다."),
+
+    // A005: Refresh Token 서명 불일치, 형식 오류, 또는 Redis 저장 토큰과 불일치
+    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A005", "유효하지 않은 리프레시 토큰입니다."),
+    // A006: Refresh Token의 exp 클레임 초과
+    EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A006", "만료된 리프레시 토큰입니다."),
+    // A007: google/kakao 외 provider로 시도한 경우
+    UNSUPPORTED_OAUTH2_PROVIDER(HttpStatus.BAD_REQUEST, "A007", "지원하지 않는 소셜 로그인 제공자입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
