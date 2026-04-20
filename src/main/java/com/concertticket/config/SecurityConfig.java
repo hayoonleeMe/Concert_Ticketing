@@ -48,6 +48,8 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/health").permitAll()
                         // Refresh Token 재발급: 만료된 Access Token으로 접근하므로 비인증 허용
                         .requestMatchers(HttpMethod.POST, "/api/auth/refresh").permitAll()
+                        // 추가: Admin API는 ADMIN 역할 필수 — @PreAuthorize와 이중 방어 구조
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         // 그 외 전부 인증 필요
                         .anyRequest().authenticated()
                 )
